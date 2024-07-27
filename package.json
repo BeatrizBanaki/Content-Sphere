@@ -1,0 +1,21 @@
+{
+  "name": "content-sphere",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mustache-express": "^1.3.2",
+    "nodemon": "^3.1.4",
+    "session": "^0.1.0"
+  },
+  "description": ""
+}
