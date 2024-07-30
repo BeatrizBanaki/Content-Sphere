@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Página</title>
+    <link rel="stylesheet" href="/css/edit.css">
+</head>
+<body>
+    {{> layout }}
+    <main>
+        <form action="/pages/edit/{{category}}/{{pageName}}" method="post">
+            <label for="content">Conteúdo:</label>
+            <textarea id="content" name="content" rows="10" required>{{content}}</textarea>
+            <button type="submit" class="button">Salvar Alterações</button>
+        </form>
+    </main>
+</body>
+</html>

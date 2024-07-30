@@ -1,26 +1,21 @@
-//Requires gerais
-const path = require("path")
-require("dotenv").config()
-
-//Express
 const express = require('express');
 const app = express(); 
+const path = require("path");
+require("dotenv").config();
 
-//Controller Páginas
-const pageController = require('./controllers/pageController');
-
-//Controller Autorização
+// Controllers
+const { router: pageController, listCategories, listPages } = require('./controllers/pageController');
 const authController = require('./controllers/authController');
+const homeController = require('./controllers/homeController'); 
 
-//Session
+// Session
 const session = require("express-session");
 app.use(session({
-    secret: process.env.SECRET, // Chave secreta para assinar cookie de sessão 
-    resave: false, // Não salvar a sessão se ela não foi modificada
-    saveUninitialized: false, // Não criar uma sessão para solicitações que não foram modificadas
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
     cookie: { 
-        secure: false, 
-        maxAge: 60000 // Tempo de expiração do cookie de sessão (em milissegundos)
+        secure: false
     }
 }));
 
@@ -35,38 +30,24 @@ app.use(express.static('public'));
 const mustacheExpress = require('mustache-express');
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
-app.set('views', __dirname + '/views'); // Pasta de views
+app.set('views', __dirname + '/views');
 
-// Rota para autenticação do administrador
-app.post('/login', (req, res) => {
-    const { username, password } = req.body;
-    if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
-        req.session.isAuthenticated = true;
-        res.redirect('/admin');
-    } else {
-        res.send('Usuário ou senha inválidos');
-    }
-});
+// Routes
+app.use('/pages', pageController);
+app.use('/', authController);
+app.use('/home', homeController);
 
-// Rota de logout
-app.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            return res.redirect('/');
-        }
-        res.clearCookie('connect.sid');
-        res.redirect('/');
-    });
-});
 
-// Rota de exemplo para proteger com sessão
-app.get('/admin', (req, res, next) => {
-    if (req.session.isAuthenticated) {
-        next(); // Continuar para o próximo middleware ou rota
-    } else {
-        res.redirect('/login');
-    }
-});
+// Rota para a página inicial
+// app.get('/home', (req, res) => {
+//     const categories = listCategories().map(category => {
+//         return {
+//             name: category,
+//             pages: listPages(category)
+//         };
+//     });
+//     res.render('home', { categories });
+// });
 
 // Inicialização do servidor
 const port = process.env.PORT || 3000;
@@ -77,29 +58,5 @@ app.listen(port, () => {
 
 // GET
 app.get('/', (req, res) => {
-    res.render('index', { message: 'Bem-vindo ao CMS!' });
+    res.redirect('/home');
 });
-
-// Função para listar as páginas
-function listPages() {
-    try {
-        // Ler o diretório de páginas 
-        const files = fs.readdirSync(pagesDirectory);
-
-        // Filtrar e mapear os arquivos para obter informações das páginas
-        const pages = files.map(file => {
-            const pageName = path.parse(file).name; // Nome da página sem extensão
-            return { 
-                name: pageName, // Nome amigável para exibição
-                url: `/${pageName}` // URL para acessar a página
-            };
-        });
-
-        return pages;
-    } catch (err) {
-        console.error("Erro ao listar páginas:", err);
-        return [];
-    }
-}
-
-module.exports = { listPages };

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Página</title>
+    <link rel="stylesheet" href="/css/create.css">
+</head>
+<body>
+    {{> layout }}
+    <main>
+        <form id="createPageForm" action="/pages/create" method="POST">
+            <label for="url">URL da Página:</label>
+            <input type="text" id="url" name="url" required>
+            
+            <label for="content">Conteúdo da Página:</label>
+            <textarea id="content" name="content" rows="10" required></textarea>
+            
+            <label for="category">Categoria:</label>
+            <select id="category" name="category">
+                <option value="">Selecionar Categoria</option>
+                {{#categories}}
+                <option value="{{.}}">{{.}}</option>
+                {{/categories}}
+            </select>
+            
+            <label for="newCategory">Nova Categoria:</label>
+            <input type="text" id="newCategory" name="newCategory">
+
+            <button type="submit">Criar Página</button>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById('createPageForm').addEventListener('submit', function(event) {
+            const categorySelect = document.getElementById('category');
+            const newCategoryInput = document.getElementById('newCategory');
+
+            if (categorySelect.value === '' && newCategoryInput.value.trim() === '') {
+                event.preventDefault();
+                alert('Por favor, selecione uma categoria existente ou crie uma nova categoria.');
+            }
+        });
+    </script>
+</body>
+</html>

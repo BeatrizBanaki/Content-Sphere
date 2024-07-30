@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+    {{> layout }}
+    <main>
+        <ul>
+             {{#pages}}
+                <li><a href="/pages{{url}}">{{name}}</a></li>
+                {{/pages}}
+        </ul>
+        {{#categories}}
+        <section class="category">
+            <h2>{{name}}</h2>
+            <ul class="pages">
+                {{#pages}}
+                <li><a href="/pages{{url}}">{{name}}</a></li>
+                {{/pages}}
+            </ul>
+        </section>
+        {{/categories}}
+    </main>
+</body>
+</html>

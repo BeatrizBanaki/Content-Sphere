@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/page.css">
+</head>
+<body>
+    {{> layout }}
+    <main>
+        <h2>{{pageTitle}}</h2>
+        <div class="page-content">
+             <pre>{{{content}}}</pre>
+        </div>
+        {{#autenticado}}
+            <a href="/pages/edit/{{url}}" class="edit-link">Editar Página</a>
+            <a href="/pages/delete/{{url}}" class="delete-button">Excluir Página</a>
+        {{/autenticado}}
+        <a href="/home" class="back-link">Voltar</a>
+    </main>
+
+</body>
+</html>
