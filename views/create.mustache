@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Página</title>
     <link rel="stylesheet" href="/css/create.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
     {{> layout }}
@@ -39,7 +43,11 @@
 
             if (categorySelect.value === '' && newCategoryInput.value.trim() === '') {
                 event.preventDefault();
-                alert('Por favor, selecione uma categoria existente ou crie uma nova categoria.');
+                Swal.fire({
+                    title: 'Por favor, selecione uma categoria existente ou crie uma nova categoria.',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                });
             }
         });
     </script>
