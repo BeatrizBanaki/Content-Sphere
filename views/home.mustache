@@ -9,20 +9,24 @@
 <body>
     {{> layout }}
     <main>
-        <ul>
-             {{#pages}}
-                <li><a href="/pages{{url}}">{{name}}</a></li>
-                {{/pages}}
-        </ul>
         {{#categories}}
-        <section class="category">
-            <h2>{{name}}</h2>
-            <ul class="pages">
-                {{#pages}}
-                <li><a href="/pages{{url}}">{{name}}</a></li>
-                {{/pages}}
-            </ul>
-        </section>
+            <section class="category">
+                <h2>{{name}}</h2>
+                <ul class="pages">
+                    {{#pages}}
+                    <a href="/pages{{url}}">
+                        <li>{{name}}</li>
+                    </a>
+                    {{/pages}}
+                </ul>
+            </section>
+        {{/categories}}
+        {{^categories}}
+            <section class="no-pages">
+                <p>
+                    Nenhuma pagina foi criada ainda! 
+                </p>
+            </section>
         {{/categories}}
     </main>
 </body>
