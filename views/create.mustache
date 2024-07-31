@@ -23,9 +23,12 @@
             
             <label for="category">Categoria:</label>
             <select id="category" name="category">
-                <option value="">Selecionar Categoria</option>
                 {{#categories}}
-                <option value="{{.}}">{{.}}</option>
+                    <option value="">Selecionar Categoria</option>
+                    <option value="{{.}}">{{.}}</option>
+                {{/categories}}
+                {{^categories}}
+                    <option value="">Nenhuma categoria foi crianda ainda</option>
                 {{/categories}}
             </select>
             
