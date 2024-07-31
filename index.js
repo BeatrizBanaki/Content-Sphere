@@ -38,16 +38,7 @@ app.use('/', authController);
 app.use('/home', homeController);
 
 
-// Rota para a página inicial
-// app.get('/home', (req, res) => {
-//     const categories = listCategories().map(category => {
-//         return {
-//             name: category,
-//             pages: listPages(category)
-//         };
-//     });
-//     res.render('home', { categories });
-// });
+
 
 // Inicialização do servidor
 const port = process.env.PORT || 3000;

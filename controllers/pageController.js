@@ -52,6 +52,10 @@ router.post('/create', (req, res) => {
         const selectedCategory = newCategory || category;
         const categoryPath = path.join(pagesDirectory, selectedCategory);
 
+        if (!fs.existsSync(pagesDirectory)) {
+            fs.mkdirSync(pagesDirectory);
+        }        
+
         // Criar nova categoria se não existir
         if (!fs.existsSync(categoryPath)) {
             fs.mkdirSync(categoryPath);
