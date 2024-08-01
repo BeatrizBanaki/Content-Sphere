@@ -144,17 +144,34 @@ router.post('/edit/:category/:pageName', (req, res) => {
 });
 
 // Processar exclusão de página (POST)
+function isDirectoryEmpty(directoryPath) {
+    return fs.readdirSync(directoryPath).length === 0;
+}
+
 router.get('/delete/:category/:pageName', (req, res) => {
     if (req.session.isAuthenticated) {
         const { category, pageName } = req.params;
         const filePath = path.join(pagesDirectory, category, `${pageName}.txt`);
+        const categoryPath = path.join(pagesDirectory, category);
         
         fs.unlink(filePath, (err) => {
             if (err) {
                 console.error("Erro ao excluir página:", err);
                 return res.status(500).send("Erro ao excluir página");
             }
-            res.redirect('/home');
+
+            // Verificar se a pasta da categoria está vazia
+            if (isDirectoryEmpty(categoryPath)) {
+                fs.rmdir(categoryPath, (err) => {
+                    if (err) {
+                        console.error("Erro ao excluir pasta da categoria:", err);
+                        return res.status(500).send("Erro ao excluir pasta da categoria");
+                    }
+                    res.redirect('/home');
+                });
+            } else {
+                res.redirect('/home');
+            }
         });
     } else {
         res.redirect('/login');
